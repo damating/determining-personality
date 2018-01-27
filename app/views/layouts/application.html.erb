@@ -9,6 +9,16 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div>
+      <% if current_user %>
+        Signed in as <strong><%= current_user.first_name %></strong>!
+        <%= link_to "Sign out", logout_path, id: "log_out" %>
+      <% else %>
+        <%= link_to "Sign in with Google", "/auth/google_oauth2?hd=nopio.com", id: "log_in" %>
+      <% end %>
+    </div>
+    <div>
+      <%= yield %>
+    </div>
   </body>
 </html>
