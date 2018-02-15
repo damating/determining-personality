@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   resource :home, only: [:show]
   get 'lookup', to: 'lookup#show', as: 'lookup'
+  get 'lookup/result', to: 'lookup#lookup', as: 'lookup_result'
 
   root to: 'home#show'
 end

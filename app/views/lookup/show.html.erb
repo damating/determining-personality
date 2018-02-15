@@ -1,2 +1,19 @@
-<h1>Lookup#show</h1>
-<p>Find me in app/views/lookup/show.html.erb</p>
+<%= text_area_tag 'lookup_area', nil, rows: 7, cols: 80 %>
+<%= submit_tag 'Determine personality', id: 'lookup_btn', :onclick => "lookup()" %>
+<div id="result_area"></div>
+
+<script>
+  function lookup() {
+    var text_area_value = $("#lookup_area").val();
+    $.ajax({
+      method: 'GET',
+      dataType: 'JSON',
+      data: { lookup_text: text_area_value },
+      cache: false,
+      url: '/lookup/result',
+      success: function(result) {
+        $("#result_area").html(result["success"]);
+      }
+    });
+  }
+</script>
