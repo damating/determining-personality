@@ -1,15 +1,17 @@
 require 'uri'
 
-class PlacesFinderApi
-  def self.find_address(address)
-    request = fetch_address_data_by_query(address)
+class PlacesFinderApiClient
+  def self.get_address_data(address)
+    request = call_by_query(address)
     data = JSON.parse(request.body)
-    return data['results'].first if data['status'] == 'OK'
+    return unless data['status'] == 'OK'
 
-    raise 'Address not found!'
+    data['results'].first
+  rescue RestClient::ExceptionWithResponse => e
+    raise e.response
   end
 
-  def self.fetch_address_data_by_query(address)
+  def self.call_by_query(address)
     encoded_address = encode_uri_params('query', address)
     RestClient.post "https://maps.googleapis.com/maps/api/place/textsearch/json?#{encoded_address}&key=#{ENV['google_places_key']}", content_type: :json, accept: :json
   end

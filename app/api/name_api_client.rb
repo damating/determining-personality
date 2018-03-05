@@ -1,18 +1,20 @@
-class NameApi
-  def self.get_person_data_by_fullname(full_name)
-    request = by_fullname(full_name)
+class NameApiClient
+  def self.get_person_data_by_fullname(fullname)
+    request = call_with_fullname(fullname)
 
     data = JSON.parse(request.body)
-    data = data['matches'].select { |match| match['likeliness'] > 0.7 }.first # TO DO choose the one which has the biggest likeliness
+    data = data['matches'].select { |match| match['likeliness'] > 0.7 }
+                          .sort_by { |match| match['likeliness'] }
+                          .last
+
     return false unless data
 
     data['parsedPerson']
-  rescue StandardError => e
-    # 500 Internal Server Error
-    puts e
+  rescue RestClient::ExceptionWithResponse => e
+    raise e.response
   end
 
-  def self.fetch_person_data_by_fullname(full_name)
+  def self.call_with_fullname(fullname)
     RestClient.post "http://rc50-api.nameapi.org/rest/v5.0/parser/personnameparser?apiKey=#{ENV['name_api_key']}",
                     {
                       'inputPerson' =>
@@ -22,7 +24,7 @@ class NameApi
                         {
                           'nameFields' =>
                           [
-                            { 'string' => "#{full_name}", 'fieldType' => 'FULLNAME' }
+                            { 'string' => "#{fullname}", 'fieldType' => 'FULLNAME' }
                           ]
                         }
                       }
