@@ -1,8 +1,9 @@
 class NameApiClient
   def self.get_person_data_by_fullname(fullname)
-    request = call_with_fullname(fullname)
-
-    data = JSON.parse(request.body)
+    data = CacheStore.get_or_cache_data(fullname, 30) do
+      call_with_fullname(fullname)
+    end
+    data = JSON.parse(data)
     data = data['matches'].select { |match| match['likeliness'] > 0.7 }
                           .sort_by { |match| match['likeliness'] }
                           .last

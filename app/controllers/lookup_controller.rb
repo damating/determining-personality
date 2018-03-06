@@ -20,8 +20,9 @@ class LookupController < ApplicationController
           <p>#{address_enricher.person_surname}</p>
           <p>#{address_enricher.person_gender}</p>
           <p>#{address_enricher.formatted_address}</p>
-          <p>#{address_enricher.latitude} #{address_enricher.longitude}</p>
+          <p>#{address_enricher.place_name}</p>
           <p>#{address_enricher.place_types}</p>
+          <p>#{address_enricher.latitude} #{address_enricher.longitude}</p>
         </div>"
     }
   rescue StandardError => e
