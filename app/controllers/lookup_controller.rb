@@ -6,26 +6,13 @@ class LookupController < ApplicationController
 
   def lookup
     lookup_text = params[:lookup_text]
-
     if lookup_text.empty?
-      render json: { html: '<p>You need to put text to the text area</p>' } and return
+      render json: { error_message: 'Please provide address information.' }, status: 400 and return
     end
 
-    address_enricher = AddressEnricher.new.get_result(lookup_text)
-
-    render json: {
-      html:
-        "<div>
-          <p>#{address_enricher.person_name}</p>
-          <p>#{address_enricher.person_surname}</p>
-          <p>#{address_enricher.person_gender}</p>
-          <p>#{address_enricher.formatted_address}</p>
-          <p>#{address_enricher.place_name}</p>
-          <p>#{address_enricher.place_types}</p>
-          <p>#{address_enricher.latitude} #{address_enricher.longitude}</p>
-        </div>"
-    }
+    address_builder = EnrichAddressService.new(plain_address_text: lookup_text).call
+    render json: address_builder
   rescue StandardError => e
-    render json: { html: "<h3>#{e}</h3>" }
+    render json: { error_message: e }, status: 400
   end
 end

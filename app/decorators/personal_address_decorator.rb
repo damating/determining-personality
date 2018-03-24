@@ -1,14 +1,12 @@
 class PersonalAddressDecorator
-  delegate :name, :surname, :gender, to: :person, prefix: true, allow_nil: true
+  delegate :name, :surname, :gender, to: :person, allow_nil: true
   delegate :formatted_address, :place_name, :latitude, :longitude, :place_types, to: :@address
+
+  attr_reader :person, :address, :address_type
 
   def initialize(address, person = nil)
     @person = person
     @address = address
-  end
-
-  # needed for use prefix for delegation
-  def person
-    @person
+    @address_type = @person ? 'private' : 'company'
   end
 end
