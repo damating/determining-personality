@@ -11,6 +11,10 @@ class LookupController < ApplicationController
     end
 
     address_builder = EnrichAddressService.new(plain_address_text: lookup_text).call
+    if address_builder.nil?
+      render json: { error_message: 'No data found.' }, status: 404 and return
+    end
+
     render json: address_builder
   rescue StandardError => e
     render json: { error_message: e }, status: 400

@@ -51,6 +51,7 @@ var LookupShow = new function() {
   var companyAddressHtml = function(data) {
     return (
       `<div>
+        <p>Place name: ${data.address.place_name}</p>
         <p>Address: ${data.address.formatted_address}</p>
         <p>Address type: ${data.address_type}</p>
       </div>`

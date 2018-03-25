@@ -1,12 +1,14 @@
 class PlacesFinderApi::Client
-  def self.get_address_data(address)
-    data = CacheStore.get_or_cache_data(address, 30) do
-      PlacesFinderApi::Request.get_address_data(address)
-    end
-    data = JSON.parse(data)
-    return unless data['status'] == 'OK'
+  def self.get_address_data(address_text)
+    return if address_text.blank?
 
-    data['results'].first
+    address_data = CacheStore.get_or_cache_data(address_text, 30) do
+      PlacesFinderApi::Request.get_address_data(address_text)
+    end
+    address_data = JSON.parse(address_data)
+    return unless address_data['status'] == 'OK'
+
+    address_data['results'].first
   rescue RestClient::ExceptionWithResponse => e
     raise e.response
   end

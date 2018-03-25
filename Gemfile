@@ -36,7 +36,6 @@ gem 'redis-rails'
 
 gem 'omniauth-google-oauth2'
 gem 'figaro'
-gem 'aws-sdk'
 gem 'rest-client', '~> 2.0', '>= 2.0.2'
 
 group :development, :test do
@@ -46,6 +45,7 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'rspec-rails', '~> 3.7'
 end
 
 group :development do
