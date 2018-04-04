@@ -1,24 +1,15 @@
-# README
+# Determining Personality
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This app determinates if given string that contains some name and address information belongs to company or to individual. It is developed with help of:
 
-Things you may want to cover:
+* Google places API,
 
-* Ruby version
+* Name API,
 
-* System dependencies
+* Redis Cache (requests caching),
 
-* Configuration
+* Rails,
 
-* Database creation
+* Oauth (defines the specific google account domain)
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+It was created as side project to explore Google places API and few other things.
